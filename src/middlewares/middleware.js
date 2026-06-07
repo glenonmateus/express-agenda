@@ -4,8 +4,8 @@ const middlewareGlobal = (request, response, next) => {
 };
 
 const checkCsrfError = (error, request, response, next) => {
-  if (error && error.code !== "EBADCSRFTOKEN") return next(error);
-  response.status(403).send("Invalid CSRF token");
+  if (error) response.render("404");
+  next();
 };
 
 const csrfMiddleware = (request, response, next) => {
