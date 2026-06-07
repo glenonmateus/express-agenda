@@ -1,12 +1,17 @@
 import express from "express";
-import { home, submit } from "./src/controllers/HomeController.js";
-import { contato } from "./src/controllers/ContatoController.js";
+import { index as homeIndex } from "./src/controllers/HomeController.js";
+import {
+  index as loginIndex,
+  login,
+  register,
+} from "./src/controllers/LoginController.js";
 
 const route = express.Router();
 
-route.get("/", home);
-route.post("/", submit);
+route.get("/", homeIndex);
 
-route.get("/contato", contato);
+route.get("/login", loginIndex);
+route.post("/login", login);
+route.post("/login/register", register);
 
 export default route;
