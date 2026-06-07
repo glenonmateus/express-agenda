@@ -44,7 +44,14 @@ app.set("view engine", "html");
 app.use(sessionOptions);
 app.use(flash());
 //security
-app.use(helmet());
+app.use(
+  helmet.contentSecurityPolicy({
+    directives: {
+      defaultSrc: ["'self'", "https://cdn.jsdelivr.net/"],
+      scriptSrc: ["'self'", "https://cdn.jsdelivr.net/"],
+    },
+  }),
+);
 app.use(csrf());
 //middleware - routes
 app.use(middlewareGlobal);
