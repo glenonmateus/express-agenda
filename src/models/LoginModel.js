@@ -1,5 +1,6 @@
 import mongoose from "mongoose";
 import validator from "validator";
+import bcryptjs from "bcryptjs";
 
 const LoginSchema = mongoose.Schema({
   email: { type: String, unique: true, required: true },
@@ -15,12 +16,21 @@ class Login {
     this.user = null;
   }
 
-  register() {
+  async register() {
     this.check();
     if (this.errors.length > 0) {
       return;
     }
-    this.user = new LoginModel(this.body);
+    try {
+      const salt = bcryptjs.genSaltSync();
+      this.body.password = bcryptjs.hashSync(this.body.password, salt);
+      this.user = await LoginModel.create(this.body);
+    } catch (error) {
+      if (error.code === 11000) {
+        this.errors.push("Email ja cadastrado");
+      }
+      console.error(error);
+    }
   }
 
   check() {
