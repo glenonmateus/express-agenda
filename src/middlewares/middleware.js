@@ -1,5 +1,6 @@
 const middlewareGlobal = (request, response, next) => {
-  response.locals.localVariable = "Variável local";
+  response.locals.errors = request.flash("errors");
+  response.locals.success = request.flash("success");
   next();
 };
 
