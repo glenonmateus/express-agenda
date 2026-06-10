@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 import validator from "validator";
 
 const LoginSchema = mongoose.Schema({
-  email: { type: String, required: true },
+  email: { type: String, unique: true, required: true },
   password: { type: String, required: true },
 });
 
