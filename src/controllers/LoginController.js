@@ -16,13 +16,19 @@ const login = async (request, response) => {
       return;
     }
     request.flash("success", "Login realizado com sucesso!");
+    request.session.user = login.user;
     request.session.save(function () {
-      return response.redirect(303, request.get("Referer") || "/login");
+      return response.redirect(303, "/");
     });
   } catch (error) {
     console.error(error);
-    return response.send("404");
+    return response.render("404");
   }
+};
+
+const logout = (request, response) => {
+  request.session.destroy();
+  response.redirect("/login");
 };
 
 const register = async (request, response) => {
@@ -42,8 +48,8 @@ const register = async (request, response) => {
     });
   } catch (error) {
     console.error(error);
-    return response.send("404");
+    return response.render("404");
   }
 };
 
-export { index, login, register };
+export { index, login, logout, register };
