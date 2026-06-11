@@ -39,12 +39,12 @@ class Login {
       return;
     }
     try {
-      const hasEmail = await this.verifyEmail(this.body.email);
+      await this.verifyEmail(this.body.email);
       const passwordIsMatch = await this.verifyPassword(
         this.body.password,
-        this.user.password,
+        this.user?.password,
       );
-      if (!hasEmail && !passwordIsMatch) {
+      if (!this.user || !passwordIsMatch) {
         this.errors.push("Usuário e/ou Senha não conferem");
       }
     } catch (error) {
@@ -55,22 +55,14 @@ class Login {
   async verifyEmail(email) {
     try {
       this.user = await LoginModel.findOne({ email: email });
-      if (!this.user) {
-        this.errors.push("Email não cadastrado");
-      }
-      return this.user ? true : false;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async verifyPassword(password, storeHash) {
+  async verifyPassword(password, storeHash = "") {
     try {
-      const isMatch = await bcryptjs.compare(password, storeHash);
-      if (!isMatch) {
-        this.errors.push("A senha não confere");
-      }
-      return isMatch;
+      return await bcryptjs.compare(password, storeHash);
     } catch (error) {
       console.error(error);
     }
