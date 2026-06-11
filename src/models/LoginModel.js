@@ -3,7 +3,14 @@ import validator from "validator";
 import bcryptjs from "bcryptjs";
 
 const LoginSchema = mongoose.Schema({
-  email: { type: String, unique: true, required: true },
+  email: {
+    type: String,
+    unique: true,
+    required: true,
+    validate: {
+      validator: (value) => validator.isEmail(value),
+    },
+  },
   password: { type: String, required: true },
 });
 
@@ -17,7 +24,7 @@ class Login {
   }
 
   async register() {
-    this.check();
+    this.checkFormInputPassword();
     if (this.errors.length > 0) {
       return;
     }
@@ -29,12 +36,15 @@ class Login {
       if (error.code === 11000) {
         this.errors.push("Email já cadastrado");
       }
+      if (error.name === "ValidationError") {
+        this.errors.push("Email inválido");
+      }
       console.error(error);
     }
   }
 
   async login() {
-    this.check();
+    this.checkFormInputPassword();
     if (this.errors.length > 0) {
       return;
     }
@@ -68,19 +78,7 @@ class Login {
     }
   }
 
-  check() {
-    // this.removeCsrfTokenFromBody();
-    this.checkInputEmail();
-    this.checkInputPassword();
-  }
-
-  checkInputEmail() {
-    if (!validator.isEmail(this.body.email)) {
-      this.errors.push("Email inválido");
-    }
-  }
-
-  checkInputPassword() {
+  checkFormInputPassword() {
     if (this.body.password.length < 3 || this.body.password.length > 50) {
       this.errors.push("Password precisa ter entre 3 e 50 caracteres");
     }
