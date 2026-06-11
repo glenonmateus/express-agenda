@@ -27,32 +27,71 @@ class Login {
       this.user = await LoginModel.create(this.body);
     } catch (error) {
       if (error.code === 11000) {
-        this.errors.push("Email ja cadastrado");
+        this.errors.push("Email já cadastrado");
       }
       console.error(error);
     }
   }
 
-  check() {
-    this.removeCsrfTokenFromBody();
-    this.checkEmail();
-    this.checkPassword();
+  async login() {
+    this.check();
+    if (this.errors.length > 0) {
+      return;
+    }
+    try {
+      const hasEmail = await this.verifyEmail(this.body.email);
+      const passwordIsMatch = await this.verifyPassword(
+        this.body.password,
+        this.user.password,
+      );
+      if (!hasEmail && !passwordIsMatch) {
+        this.errors.push("Usuário e/ou Senha não conferem");
+      }
+    } catch (error) {
+      console.error(error);
+    }
   }
 
-  checkEmail() {
+  async verifyEmail(email) {
+    try {
+      this.user = await LoginModel.findOne({ email: email });
+      if (!this.user) {
+        this.errors.push("Email não cadastrado");
+      }
+      return this.user ? true : false;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  async verifyPassword(password, storeHash) {
+    try {
+      const isMatch = await bcryptjs.compare(password, storeHash);
+      if (!isMatch) {
+        this.errors.push("A senha não confere");
+      }
+      return isMatch;
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  check() {
+    // this.removeCsrfTokenFromBody();
+    this.checkInputEmail();
+    this.checkInputPassword();
+  }
+
+  checkInputEmail() {
     if (!validator.isEmail(this.body.email)) {
       this.errors.push("Email inválido");
     }
   }
 
-  checkPassword() {
+  checkInputPassword() {
     if (this.body.password.length < 3 || this.body.password.length > 50) {
       this.errors.push("Password precisa ter entre 3 e 50 caracteres");
     }
-  }
-
-  removeCsrfTokenFromBody() {
-    delete this.body._csrf;
   }
 }
 
