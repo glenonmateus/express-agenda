@@ -62,7 +62,7 @@ class Login {
 
   async verifyPassword(password, storeHash = "") {
     try {
-      return await bcryptjs.compare(password, storeHash);
+      return bcryptjs.compareSync(password, storeHash);
     } catch (error) {
       console.error(error);
     }
