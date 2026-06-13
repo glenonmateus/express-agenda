@@ -1,7 +1,7 @@
 import { Login } from "../models/LoginModel.js";
 
 const index = (request, response) => {
-  response.render("login");
+  return response.render("login");
 };
 
 const login = async (request, response) => {
@@ -28,7 +28,7 @@ const login = async (request, response) => {
 
 const logout = (request, response) => {
   request.session.destroy();
-  response.redirect("/login");
+  return response.redirect("/login");
 };
 
 const register = async (request, response) => {
