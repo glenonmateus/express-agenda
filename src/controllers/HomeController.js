@@ -1,9 +1,8 @@
 const index = (request, response) => {
   if (!request.session.user) {
-    response.redirect("/login");
-    return;
+    return response.redirect("/login");
   }
-  response.render("index");
+  return response.render("index");
 };
 
 export { index };
