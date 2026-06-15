@@ -1,0 +1,22 @@
+<div class="responsive-table">
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Nome</th>
+        <th scope="col">Sobrenome</th>
+        <th scope="col">Telefone</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody class="table-group-divider">
+      <% contacts.forEach((contact) => { %>
+      <tr>
+        <td><%= contact.name %></td>
+        <td><%= contact.surname %></td>
+        <td><%= contact.phone %></td>
+        <td><%= contact.email %></td>
+      </tr>
+      <% }); %>
+    </tbody>
+  </table>
+</div>
