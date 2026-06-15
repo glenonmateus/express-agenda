@@ -37,6 +37,7 @@ class Contact {
     this.errors = [];
     this.contact = null;
   }
+
   async register(owner) {
     if (this.errors.length > 0) return;
     this.body.owner = owner._id;
@@ -61,10 +62,16 @@ class Contact {
       console.error(error);
     }
   }
+
   async update() {}
   async delete() {}
-  async contacts() {
-    return await ContactModel.find({});
+
+  static async list(owner) {
+    try {
+      return await ContactModel.find({ owner: owner });
+    } catch (error) {
+      console.error(error);
+    }
   }
 }
 
