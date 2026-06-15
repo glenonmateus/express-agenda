@@ -12,6 +12,7 @@ const LoginSchema = mongoose.Schema({
     },
   },
   password: { type: String, required: true },
+  contacts: [{ type: mongoose.Schema.Types.ObjectId, ref: "Contact" }],
 });
 
 const LoginModel = mongoose.model("Login", LoginSchema);
@@ -79,8 +80,9 @@ class Login {
   }
 
   checkFormInputPassword() {
-    if (this.body.password.length < 3 || this.body.password.length > 50) {
-      this.errors.push("Password precisa ter entre 3 e 50 caracteres");
+    const { password } = this.body;
+    if (password < 3 || password > 50) {
+      this.errors.push("Senha precisa ter entre 3 e 50 caracteres");
     }
   }
 }
