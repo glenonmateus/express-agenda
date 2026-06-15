@@ -12,7 +12,7 @@ const ContactSchema = mongoose.Schema({
         if (value === "") return true;
         return parsePhoneNumber(value, "BR").isValid();
       },
-      message: "Número de telefone inválido",
+      message: "Telefone inválido",
     },
   },
   email: {
