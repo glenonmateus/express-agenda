@@ -11,14 +11,14 @@ const login = async (request, response) => {
     if (login.errors.length > 0) {
       request.flash("errors", login.errors);
       request.session.save(function () {
-        return response.redirect(303, request.get("Referer") || "/login");
+        return response.redirect(request.get("Referer") || "/login");
       });
       return;
     }
     request.flash("success", "Login realizado com sucesso!");
     request.session.user = login.user;
     request.session.save(function () {
-      return response.redirect(303, "/");
+      return response.redirect("/");
     });
   } catch (error) {
     console.error(error);
@@ -38,13 +38,13 @@ const register = async (request, response) => {
     if (login.errors.length > 0) {
       request.flash("errors", login.errors);
       request.session.save(function () {
-        return response.redirect(303, request.get("Referer") || "/login");
+        return response.redirect(request.get("Referer") || "/login");
       });
       return;
     }
     request.flash("success", "Cadastro realizado com sucesso!");
     request.session.save(function () {
-      return response.redirect(303, request.get("Referer") || "/login");
+      return response.redirect(request.get("Referer") || "/login");
     });
   } catch (error) {
     console.error(error);
