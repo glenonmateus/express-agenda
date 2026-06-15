@@ -19,5 +19,6 @@ route.post("/login/register", register);
 route.get("/logout", logout);
 
 route.get("/contato", authMiddleware, contactIndex);
+route.post("/contato/register", authMiddleware, contactRegister);
 
 export default route;
