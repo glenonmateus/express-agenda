@@ -15,7 +15,7 @@ import contactsMiddleware from "./src/middlewares/contacts.js";
 
 const route = express.Router();
 
-route.get("/", authMiddleware, contactsMiddleware, homeIndex);
+route.get("/", authMiddleware, homeIndex);
 
 route.get("/login", loginIndex);
 route.post("/login", login);

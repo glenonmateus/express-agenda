@@ -13,6 +13,7 @@ const register = async (request, response) => {
       return response.redirect("/contato");
     }
     request.flash("success", "Contato cadastrado com sucesso!");
+    request.session.contacts = await Contact.list(request.session.user._id);
     return response.redirect("/");
   } catch (error) {
     console.error(error);

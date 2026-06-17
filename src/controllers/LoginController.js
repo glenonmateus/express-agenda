@@ -1,4 +1,5 @@
 import { Login } from "../models/LoginModel.js";
+import Contact from "../models/ContactModel.js";
 
 const index = (request, response) => {
   return response.render("login");
@@ -17,6 +18,7 @@ const login = async (request, response) => {
     }
     request.flash("success", "Login realizado com sucesso!");
     request.session.user = login.user;
+    request.session.contacts = await Contact.list(login.user._id);
     request.session.save(function () {
       return response.redirect("/");
     });
