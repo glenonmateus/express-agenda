@@ -66,9 +66,9 @@ class Contact {
   async update() {}
   async delete() {}
 
-  static async list(owner) {
+  static async list(ownerId) {
     try {
-      return await ContactModel.find({ owner: owner });
+      return await ContactModel.find({ owner: ownerId });
     } catch (error) {
       console.error(error);
     }
