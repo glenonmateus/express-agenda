@@ -1,24 +1,26 @@
-<div class="responsive-table">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th scope="col">Nome</th>
-        <th scope="col">Sobrenome</th>
-        <th scope="col">Telefone</th>
-        <th scope="col">Email</th>
-      </tr>
-    </thead>
-    <tbody class="table-group-divider">
-      <% contacts.forEach((contact) => { %>
-      <tr>
-        <td><%= contact.name %></td>
-        <td><%= contact.surname %></td>
-        <td><%= contact.phone %></td>
-        <td><%= contact.email %></td>
-        <td><button type="button" class="btn btn-info">Editar</button></td>
-        <td><button type="button" class="btn btn-danger">Excluir</button></td>
-      </tr>
-      <% }); %>
-    </tbody>
-  </table>
-</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Nome</th>
+      <th scope="col">Sobrenome</th>
+      <th scope="col">Telefone</th>
+      <th scope="col">Email</th>
+    </tr>
+  </thead>
+  <tbody class="table-group-divider">
+    <% contacts.forEach((contact) => { %>
+    <tr>
+      <td><%= contact.name %></td>
+      <td><%= contact.surname %></td>
+      <td><%= contact.phone %></td>
+      <td><%= contact.email %></td>
+      <td><a href="/contato/edit/<%= contact._id %>">Editar</a></td>
+      <td>
+        <a href="/contato/remove/<%= contact._id %>" class="text-danger"
+          >Excluir</a
+        >
+      </td>
+    </tr>
+    <% }); %>
+  </tbody>
+</table>

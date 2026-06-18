@@ -10,23 +10,28 @@
           <h1 class="display-1 text-center">Contatos</h1>
           <p class="text-center lead">Crie ou edite seus contatos abaixo</p>
           <%- include('includes/messages.html'); %>
+
+          <% if(contact._id) { %>
+          <form action="/contato/edit/<%= contact._id %>" method="POST">
+          <% } else { %>
           <form action="/contato/register" method="POST">
+          <% } %>
             <input type="hidden" name="_csrf" value=<%= csrfToken %>>
             <div class="mb-3">
               <label>Nome</label>
-              <input type="text" class="form-control" name="name" required />
+              <input type="text" class="form-control" name="name" value="<%= contact.name %>" required />
             </div>
             <div class="mb-3">
               <label>Sobrenome</label>
-              <input type="text" class="form-control" name="surname" />
+              <input type="text" class="form-control" name="surname" value="<%= contact.surname %>" />
             </div>
             <div class="mb-3">
               <label>Email</label>
-              <input type="email" class="form-control" name="email" />
+              <input type="email" class="form-control" name="email" value="<%= contact.email %>"/>
             </div>
             <div class="mb-3">
               <label>Telefone</label>
-              <input type="tel" class="form-control" name="phone" />
+              <input type="tel" class="form-control" name="phone" value="<%= contact.phone %>"/>
             </div>
             <button type="submit" class="btn btn-primary">
               Salvar
