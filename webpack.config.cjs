@@ -1,7 +1,7 @@
 const path = require("path");
 
 module.exports = {
-  mode: "development",
+  mode: "production",
   entry: "./frontend/main.js",
   output: {
     path: path.resolve(__dirname, "frontend", "assets", "js"),
@@ -18,10 +18,6 @@ module.exports = {
             presets: ["@babel/env"],
           },
         },
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"],
       },
     ],
   },
