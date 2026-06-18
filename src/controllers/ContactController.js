@@ -1,7 +1,8 @@
 import Contact from "../models/ContactModel.js";
 
 const index = (request, response) => {
-  return response.render("contact");
+  const contact = {};
+  return response.render("contact", { contact });
 };
 
 const register = async (request, response) => {
@@ -17,11 +18,46 @@ const register = async (request, response) => {
     return response.redirect("/");
   } catch (error) {
     console.error(error);
+    return response.render("404");
   }
 };
 
-const list = async (error, request, response) => {};
+const edit = async (request, response) => {
+  try {
+    if (!request.params.id) return;
+    const contact = new Contact(request.body);
+    await contact.findById(request.params.id);
+    const contactInfo = contact.contact;
+    return response.render("contact", { contact: contactInfo });
+  } catch (error) {
+    console.error(error);
+    return response.render("404");
+  }
+};
 
-const edit = async (error, request, response) => {};
+const update = async (request, response) => {
+  try {
+    if (!request.params.id) return;
+    await Contact.update(request.params.id, request.body);
+    request.flash("success", "Contato atualizado com sucesso!");
+    request.session.contacts = await Contact.list(request.session.user._id);
+    return response.redirect("/");
+  } catch (error) {
+    console.error(error);
+    return response.render("404");
+  }
+};
 
-export { index, register, list, edit };
+const remove = async (request, response) => {
+  try {
+    await Contact.remove(request.params.id);
+    request.flash("success", "Contato removido com sucesso!");
+    request.session.contacts = await Contact.list(request.session.user._id);
+    return response.redirect("/");
+  } catch (error) {
+    console.error(error);
+    return response.render("404");
+  }
+};
+
+export { index, register, edit, remove, update };

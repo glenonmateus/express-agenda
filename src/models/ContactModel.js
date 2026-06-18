@@ -63,8 +63,29 @@ class Contact {
     }
   }
 
-  async update() {}
-  async delete() {}
+  async findById(contactId) {
+    try {
+      this.contact = await ContactModel.findById(contactId);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async update(contactId, contact) {
+    try {
+      return await ContactModel.findByIdAndUpdate({ _id: contactId }, contact);
+    } catch (error) {
+      console.error(error);
+    }
+  }
+
+  static async remove(contactId) {
+    try {
+      return await ContactModel.deleteOne({ _id: contactId });
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   static async list(ownerId) {
     try {
